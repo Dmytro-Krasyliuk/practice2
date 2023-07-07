@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import practiceTasks from "./data.js";
 const app = express();
-const port = process.env || 3009;
+const port = process.env.PORT || 3009;
 
 
 
