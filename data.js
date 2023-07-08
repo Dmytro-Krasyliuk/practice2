@@ -9,6 +9,38 @@ mongoose.connect(
 );
 
 
+const schema = new Schema({
+  firstName: { type: String },
+  lastName: { type: String },
+
+  name: { type: String },
+  lastName: { type: String },
+  days: { type: Array },
+  pay: {
+    day: { type: String },
+    month: { type: String },
+    year: { type: String },
+    sum: { type: String },
+    isPay: { type: Boolean },
+  },
+  events: { type: Array },
+  quiz: {
+    allMoney: { type: Number },
+    currentMoney: { type: Number },
+    lastResultMoney: { type: Number },
+  },
+  contact: { type: Array },
+
+  idGroup: { type: String },
+});
+
+let User = mongoose.model("User", schema);
+
+let students = User.find({});
+
+
+
+
 let practiceSchema = new Schema({
   id: { type: Number },
   name: { type: String },
@@ -38,4 +70,4 @@ let Practice = mongoose.model("practice", practiceSchema);
 let practiceTasks = await Practice.find({});
 console.log(practiceTasks)
 
-export default practiceTasks;
+export {practiceTasks, Practice, User, students};

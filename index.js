@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import practiceTasks from "./data.js";
+import {practiceTasks, Practice, User, students} from "./data.js";
 const app = express();
 const port = process.env.PORT || 3009;
 import fs from "fs";
@@ -12,72 +12,6 @@ const __dirname = dirname(__filename);
 
 
 
-import mongoose, { Schema } from "mongoose";
-
-mongoose.connect(
-  "mongodb+srv://dimanice:dimanice@dimanice.qqa3tdt.mongodb.net/",
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
-);
-
-let practiceSchema = new Schema({
-  id: { type: Number },
-  name: { type: String },
-  description: { type: String },
-  type: { type: String },
-  level: { type: Number },
-  themes: { type: Array },
-  tasks: [
-    {
-      title: { type: String },
-      description: { type: String },
-      check: { type: Array },
-    },
-  ],
-  data: {
-    html: { type: String },
-
-    css: { type: String },
-    js: { type: String },
-  },
-});
-
-let Practice = mongoose.model("practice", practiceSchema);
-
-
-
-const schema = new Schema({
-  firstName: { type: String },
-  lastName: { type: String },
-
-  name: { type: String },
-  lastName: { type: String },
-  days: { type: Array },
-  pay: {
-    day: { type: String },
-    month: { type: String },
-    year: { type: String },
-    sum: { type: String },
-    isPay: { type: Boolean },
-  },
-  events: { type: Array },
-  quiz: {
-    allMoney: { type: Number },
-    currentMoney: { type: Number },
-    lastResultMoney: { type: Number },
-  },
-  contact: { type: Array },
-
-  idGroup: { type: String },
-});
-
-let User = mongoose.model("User", schema);
-
-
-
-let students = User.find({})
 
 function getNamesOneStudentByIdGroup(id) {
   let names = "";
@@ -119,11 +53,14 @@ initProject(idStudent, idTask);
   );
 });
 
-app.get("getTasks/:idStudent/:idTask", (req, res) => {
-  let idStudent = req.params.idStudent;
-  let idTask = req.params.idTask;
-  
 
+app.get("/getTasks/:idStudent/:idTask", async (req, res) => {
+  let idStudent = req.params.idStudent;
+  let idTask = Number(req.params.idTask);
+  let task = "not defined";
+  task = await Practice.findOne({ id: idTask });
+  console.log('hello')
+  return res.send({data: task});
 });
 
 app.get("/get/practice/:idTask/:idStudent", (req, res) => {
