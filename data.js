@@ -1,45 +1,41 @@
-let practiceTasks = [
+import mongoose, { Schema } from "mongoose";
+
+mongoose.connect(
+  "mongodb+srv://dimanice:dimanice@dimanice.qqa3tdt.mongodb.net/",
   {
-    id: 1,
-    name: "Фон прямокутника",
-    description: "",
-    type: "",
-    level: 1,
-    themes: ["css"],
-    tasks: [
-      {
-        title: "Додай прямокутнику червоний фон",
-        description: "Червоний на англійській мові - red",
-        check: [
-          {
-            type: "cssValue",
-            selector: "div",
-            selectorNumber: 0,
-            command: "backgroundColor",
-            value: "rgb(255, 0, 0)",
-          },
-        ],
-      },
-    ],
-    data: {
-      html: `
-<div> <div>
-        `,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
 
-      css: `
-* {
-  box-sizing: border-box;
-}
-html {
-  background: #222;
-}
-        `,
-      js: `
-let resultInput = document.querySelector('.result-input')
 
-        `,
+let practiceSchema = new Schema({
+  id: { type: Number },
+  name: { type: String },
+  description: { type: String },
+  type: { type: String },
+  level: { type: Number },
+  themes: { type: Array },
+  tasks: [
+    {
+      title: { type: String },
+      description: { type: String },
+      check: { type: Array },
     },
+  ],
+  data: {
+    html: { type: String },
+
+    css: { type: String },
+    js: { type: String },
   },
-];
+});
+
+let Practice = mongoose.model("practice", practiceSchema);
+
+
+
+let practiceTasks = await Practice.find({});
+console.log(practiceTasks)
 
 export default practiceTasks;

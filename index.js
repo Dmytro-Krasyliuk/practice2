@@ -3,7 +3,12 @@ import cors from "cors";
 import practiceTasks from "./data.js";
 const app = express();
 const port = process.env.PORT || 3009;
+import fs from "fs";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 
 let students = [
@@ -1285,6 +1290,29 @@ function getNamesOneStudentByIdGroup(id) {
 
 app.use(cors());
 
+app.get("/set/practice/:idTask/:idStudent/:linkresult/", (req, res) => {
+  return res.send();
+});
+
+
+app.get("/js/practice/:idTask/:idStudent", (req, res) => {
+  let idTask = req.params.idTask;
+  let idStudent = req.params.idStudent;
+  let template = `
+  
+let idStudent = ${idStudent};
+let idTask = ${idTask};
+
+initProject(idStudent, idTask);
+  `;
+  fs.writeFile("./practice.js", template, { encoding: "utf-8" }, (err, data) => {
+    if (!err) {
+      res.sendFile(__dirname + "/practice.js", function (err) {
+        console.log(err);
+      });
+    }
+  });
+});
 
 
 app.get("/get/practice/:idTask/:idStudent", (req, res) => {
@@ -1302,12 +1330,23 @@ app.get("/get/practice/:idTask/:idStudent", (req, res) => {
 
   let HTML = task.data.html;
   let CSS = task.data.css;
-  let JS = task.data.js;
+  let JS =
+    task.data.js +
+    `
+  let idStudent = ${idStudent};
+let idTask = ${idTask};
+
+initProject(idStudent, idTask);
+  
+  `;
 
   var data = {
     title: `${task.name} | ${nameStudent}`,
     description: "",
-    html: HTML,
+    html: `<div class="main">
+    ${HTML}
+    </div>
+    `,
     html_pre_processor: "none",
     css: CSS,
     css_pre_processor: "none",
@@ -1318,8 +1357,8 @@ app.get("/get/practice/:idTask/:idStudent", (req, res) => {
     js_modernizr: false,
     js_library: "",
     html_classes: "",
-    css_external: "",
-    js_external: "",
+    css_external: "https://bot.dimanice.repl.co/style.css",
+    js_external: "https://bot.dimanice.repl.co/script.js",
     template: true,
   };
 
