@@ -1331,14 +1331,7 @@ app.get("/get/practice/:idTask/:idStudent", (req, res) => {
   let HTML = task.data.html;
   let CSS = task.data.css;
   let JS =
-    task.data.js +
-    `
-  let idStudent = ${idStudent};
-let idTask = ${idTask};
-
-initProject(idStudent, idTask);
-  
-  `;
+    task.data.js ;
 
   var data = {
     title: `${task.name} | ${nameStudent}`,
@@ -1358,7 +1351,10 @@ initProject(idStudent, idTask);
     js_library: "",
     html_classes: "",
     css_external: "https://bot.dimanice.repl.co/style.css",
-    js_external: "https://bot.dimanice.repl.co/script.js",
+    js_external: [
+      "https://bot.dimanice.repl.co/script.js",
+      `https://practice2-j4q4.onrender.com/js/practice/${idTask}/${idStudent}/`,
+    ],
     template: true,
   };
 
