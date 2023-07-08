@@ -99,7 +99,7 @@ app.get("/get/practice/:idTask/:idStudent", async (req, res) => {
   };
 
   // const message = task;
-  res.send(`
+  return res.send(`
   
   <form action="https://codepen.io/pen/define" method="POST" target="_blank">
   <input name="data" type="text" class="result-input" value="${JSON.stringify(
