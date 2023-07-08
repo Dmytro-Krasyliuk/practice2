@@ -63,16 +63,11 @@ app.get("/getTasks/:idStudent/:idTask", async (req, res) => {
   return res.send({data: task});
 });
 
-app.get("/get/practice/:idTask/:idStudent", (req, res) => {
-  let idTask = req.params.idTask;
+app.get("/get/practice/:idTask/:idStudent", async (req, res) => {
+  let idTask = Number(req.params.idTask);
   let idStudent = req.params.idStudent;
   let nameStudent = getNamesOneStudentByIdGroup(req.params.idStudent);
-  let task;
-  for (let i = 0; i < practiceTasks.length; i++) {
-    if (practiceTasks[i].id == idTask) {
-      task = practiceTasks[i];
-    }
-  }
+  let task = await Practice.find({});
 
   let HTML = task.data.html;
   let CSS = task.data.css;

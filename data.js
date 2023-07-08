@@ -68,6 +68,5 @@ let Practice = mongoose.model("practice", practiceSchema);
 
 
 let practiceTasks = await Practice.find({});
-console.log(practiceTasks)
 
 export {practiceTasks, Practice, User, students};
