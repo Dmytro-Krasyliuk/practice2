@@ -66,7 +66,7 @@ app.get("/getTasks/:idStudent/:idTask", async (req, res) => {
 app.get("/get/practice/:idTask/:idStudent", async (req, res) => {
   let idTask = Number(req.params.idTask);
   let idStudent = req.params.idStudent;
-  let nameStudent = getNamesOneStudentByIdGroup(req.params.idStudent);
+  let nameStudent = getNamesOneStudentByIdGroup(idStudent);
   let task = await Practice.findOne({ id: idTask });
 
   let HTML = task.data.html;

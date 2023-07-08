@@ -36,7 +36,7 @@ const schema = new Schema({
 
 let User = mongoose.model("User", schema);
 
-let students = User.find({});
+let students = await User.find({});
 
 
 
@@ -51,6 +51,7 @@ let practiceSchema = new Schema({
   tasks: [
     {
       title: { type: String },
+      label: { type: String },
       description: { type: String },
       check: { type: Array },
     },
