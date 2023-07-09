@@ -185,7 +185,7 @@ app.post("/set/practice", async (req, res) => {
           };
           let a = await studentListPractice.updateOne(
             { idPractice: result.idTask },
-            { $push: { [nestedArrayPath]: newElement } }
+            { [nestedArrayPath]: newElement }
           );
 
           if (result.type == "sendInfo") {
