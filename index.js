@@ -158,6 +158,7 @@ app.post("/set/practice", async (req, res) => {
   //   },
   // };
 
+
   let task = await Practice.findOne({ id: result.idTask });
   let studentPractice = await studentListPractice.findOne({
     idPractice: result.idTask,
@@ -194,7 +195,62 @@ app.post("/set/practice", async (req, res) => {
     }
   });
 
-  let templateText =
+   let templateText;
+
+    if (result.type == "updateInfo") {
+
+
+  templateText =
+    `
+*ОНОВЛЕННЯ ДАННИХ*
+
+Учень: ${getNamesOneStudentByIdGroup(result.idStudent)}
+
+Завдання №${result.idTask}: 
+*${task.name}*
+
+Виконав завдання:
+${successTask}
+Не виконав завдання:
+${wrongTask}
+
+[Переглянути роботу:](${result.link})
+
+Код:
+*HTML*:
+` +
+    "`" +
+    decodeURIComponent(result.code.html) +
+    "`" +
+    `
+
+*CSS*:
+
+` +
+    "`" +
+    decodeURIComponent(result.code.css) +
+    "`" +
+    `
+
+*JS*
+` +
+    "`" +
+    decodeURIComponent(result.code.js) +
+    "`" +
+    `
+  
+  `;
+
+  templateText = templateText.replace(/\n/g, "%0A");
+
+    
+    }
+
+    if (result.type == "sendInfo") {
+    
+
+
+  templateText =
     `
 *Учень завершив практичне завдання!*
 
@@ -236,6 +292,11 @@ ${wrongTask}
   `;
 
   templateText = templateText.replace(/\n/g, "%0A");
+
+    }
+
+
+
 
   let sendURL = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${myId}&text=${templateText}&parse_mode=Markdown`;
   fetch(sendURL);
