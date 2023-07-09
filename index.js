@@ -174,7 +174,7 @@ app.post("/set/practice", async (req, res) => {
 
       
         isFinish = student.finish;
-        if (isFinish == true) {
+        if (isFinish == false) {
           const nestedArrayPath = `students.${index}.historyCode`;
           const studentPath = `students.${index}.finish`;
 
@@ -201,7 +201,7 @@ app.post("/set/practice", async (req, res) => {
   });
 
 
-if (isFinish == true) {
+if (isFinish == false) {
 
   let successTask = "";
   let wrongTask = "";
