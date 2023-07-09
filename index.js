@@ -164,9 +164,18 @@ app.post("/set/practice", async (req, res) => {
     idPractice: result.idTask,
   });
 
+ 
+
   studentPractice.students.forEach(async (student, index) => {
     if (student.idStudent == result.idStudent) {
+
+
+       if (student.finish) {
+        return true;
+       }
+
       const nestedArrayPath = `students.${index}.historyCode`;
+      const studentPath = `students.${index}.finish`;
 
       const newElement = {
         html: result.code.html,
@@ -177,6 +186,14 @@ app.post("/set/practice", async (req, res) => {
         { idPractice: result.idTask },
         { $push: { [nestedArrayPath]: newElement } }
       );
+
+      if (result.type == "sendInfo") {
+        await studentListPractice.updateOne(
+          { idPractice: result.idTask },
+          { $push: { [studentPath]: true } }
+        );
+      }
+      
 
       console.log(a);
     }
