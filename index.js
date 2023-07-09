@@ -185,14 +185,16 @@ app.post("/set/practice", async (req, res) => {
           };
           let a = await studentListPractice.updateOne(
             { idPractice: result.idTask },
-            { [nestedArrayPath]: newElement }
+            { $push: { [nestedArrayPath]: newElement } }
           );
 
+
           if (result.type == "sendInfo") {
-            await studentListPractice.updateOne(
+            let aa = await studentListPractice.updateOne(
               { idPractice: result.idTask },
-              { $push: { [studentPath]: true } }
-            );
+              { [studentPath]: true }
+              );
+              console.log(aa);
           }
 
           console.log(a);
