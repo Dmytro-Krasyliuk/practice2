@@ -1,6 +1,12 @@
 import express from "express";
 import cors from "cors";
-import {practiceTasks, Practice, User, students} from "./data.js";
+import {
+  practiceTasks,
+  Practice,
+  User,
+  students,
+  studentListPractice,
+} from "./data.js";
 const app = express();
 const port = process.env.PORT || 3009;
 import fs from "fs";
@@ -26,7 +32,7 @@ function getNamesOneStudentByIdGroup(id) {
 app.use(cors());
 app.use(express.json());
 
-app.get('/test', async  (req, res) => {
+app.get('/tests', async  (req, res) => {
   const token = "6183220599:AAGzgg3MrVrxu2lu92WoBRRpLWanGa2UmWU";
   const myId = 957139896;
 
@@ -120,16 +126,21 @@ ${wrongTask}
 
 })
 
+
+
+
+
+
 app.post("/set/practice", async (req, res) => {
   const data = req.body;
   const token = "6183220599:AAGzgg3MrVrxu2lu92WoBRRpLWanGa2UmWU";
   const myId = 957139896;
 
   let result = req.body;
-  console.log(result);
-  // {
+  // console.log(result);
+  // let result = {
   //   idTask: 1,
-  //   idStudent: 957139896,
+  //   idStudent: -1001912511447,
   //   link: "https://cdpn.io/cpe/boomboom/index.html?key=index.html-926c7914-f3e8-a91b-5f31-f26f474c5703",
   //   successTask: [1, 0, 0, 0],
   //   code: {
@@ -148,6 +159,28 @@ app.post("/set/practice", async (req, res) => {
   // };
 
   let task = await Practice.findOne({ id: result.idTask });
+  let studentPractice = await studentListPractice.findOne({
+    idPractice: result.idTask,
+  });
+
+  studentPractice.students.forEach(async (student, index) => {
+    if (student.idStudent == result.idStudent) {
+      const nestedArrayPath = `students.${index}.historyCode`;
+
+      const newElement = {
+        html: result.code.html,
+        css: result.code.css,
+        js: result.code.js,
+      };
+      let a = await studentListPractice.updateOne(
+        { idPractice: result.idTask },
+        { $push: { [nestedArrayPath]: newElement } }
+      );
+
+      console.log(a);
+    }
+  });
+
   let successTask = "";
   let wrongTask = "";
 
@@ -207,11 +240,11 @@ ${wrongTask}
   let sendURL = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${myId}&text=${templateText}&parse_mode=Markdown`;
   fetch(sendURL);
 
-  console.log(templateText);
+  // console.log(templateText);
 
   res.send("ok");
 
-  res.send(`Hello, POST request received! Data: ${JSON.stringify(data)}`);
+  // res.send(`Hello, POST request received! Data: ${JSON.stringify(data)}`);
 });
 
 

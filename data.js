@@ -68,6 +68,40 @@ let Practice = mongoose.model("practice", practiceSchema);
 
 
 
+const studentListPracticeSchema = new Schema({
+  idPractice: { type: Number },
+  students: [
+    {
+      idStudent: { type: Number },
+      result: {
+        successTask: { type: Array },
+        wrongTask: { type: Array },
+      },
+      historyCode: [
+        {
+          html: { type: String },
+          css: { type: String },
+          js: { type: String },
+        },
+      ],
+      finish: { type: Boolean },
+      grade: { type: Number },
+      time: { type: String },
+      finishCode: {
+        html: { type: String },
+        css: { type: String },
+        js: { type: String },
+      },
+    },
+  ],
+});
+
+let studentListPractice = mongoose.model(
+  "studentListPractice",
+  studentListPracticeSchema
+);
+
+
 let practiceTasks = await Practice.find({});
 
-export {practiceTasks, Practice, User, students};
+export { practiceTasks, Practice, User, students, studentListPractice };
