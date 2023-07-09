@@ -30,6 +30,7 @@ app.use(express.json());
 
 app.post("/set/practice", (req, res) => {
   const data = req.body;
+  console.log(data);
   res.send(`Hello, POST request received! Data: ${JSON.stringify(data)}`);
 });
 
