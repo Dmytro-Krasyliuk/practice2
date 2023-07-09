@@ -135,6 +135,7 @@ app.post("/set/practice", async (req, res) => {
   const data = req.body;
   const token = "6183220599:AAGzgg3MrVrxu2lu92WoBRRpLWanGa2UmWU";
   const myId = 957139896;
+  let isFinish = false;
 
   let result = req.body;
   // console.log(result);
@@ -169,35 +170,38 @@ app.post("/set/practice", async (req, res) => {
   studentPractice.students.forEach(async (student, index) => {
     if (student.idStudent == result.idStudent) {
 
+      console.log("student.finish: ", student.finish);
 
-       if (student.finish) {
-        return true;
-       }
-
-      const nestedArrayPath = `students.${index}.historyCode`;
-      const studentPath = `students.${index}.finish`;
-
-      const newElement = {
-        html: result.code.html,
-        css: result.code.css,
-        js: result.code.js,
-      };
-      let a = await studentListPractice.updateOne(
-        { idPractice: result.idTask },
-        { $push: { [nestedArrayPath]: newElement } }
-      );
-
-      if (result.type == "sendInfo") {
-        await studentListPractice.updateOne(
-          { idPractice: result.idTask },
-          { $push: { [studentPath]: true } }
-        );
-      }
       
+        isFinish = student.finish;
+        if (isFinish == true) {
+          const nestedArrayPath = `students.${index}.historyCode`;
+          const studentPath = `students.${index}.finish`;
 
-      console.log(a);
+          const newElement = {
+            html: result.code.html,
+            css: result.code.css,
+            js: result.code.js,
+          };
+          let a = await studentListPractice.updateOne(
+            { idPractice: result.idTask },
+            { $push: { [nestedArrayPath]: newElement } }
+          );
+
+          if (result.type == "sendInfo") {
+            await studentListPractice.updateOne(
+              { idPractice: result.idTask },
+              { $push: { [studentPath]: true } }
+            );
+          }
+
+          console.log(a);
+        }
     }
   });
+
+
+if (isFinish == true) {
 
   let successTask = "";
   let wrongTask = "";
@@ -321,7 +325,10 @@ ${wrongTask}
   // console.log(templateText);
 
   res.send("ok");
-
+  }
+  else {
+    res.send("error");
+  }
   // res.send(`Hello, POST request received! Data: ${JSON.stringify(data)}`);
 });
 
