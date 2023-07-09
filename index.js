@@ -24,10 +24,15 @@ function getNamesOneStudentByIdGroup(id) {
 }
 
 app.use(cors());
+app.use(express.json());
 
-app.get("/set/practice/:idTask/:idStudent/:linkresult/", (req, res) => {
-  return res.send();
+
+
+app.post("/set/practice", (req, res) => {
+  const data = req.body;
+  res.send(`Hello, POST request received! Data: ${JSON.stringify(data)}`);
 });
+
 
 app.get("/js/practice/:idTask/:idStudent", (req, res) => {
   let idTask = req.params.idTask;
