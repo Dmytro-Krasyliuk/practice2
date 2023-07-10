@@ -210,7 +210,7 @@ if (isFinish == false) {
 
   result.successTask.forEach((status, i) => {
     if (status == 1) {
-      successTask += `✅ ${task.tasks[i].title}
+      successTask += `✅ ${task.tasks[i].title} ${task.tasks[i].label}
 `;
     } else {
       wrongTask += `❌ ${task.tasks[i].title}
@@ -283,7 +283,7 @@ ${wrongTask}
 *${task.name}*
 
 Виконав завдання:
-${successTask}
+${successTask} 
 Не виконав завдання:
 ${wrongTask}
 
@@ -569,3 +569,7 @@ for (var i = 0; i < bubblyButtons.length; i++) {
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
+
+
+
+
