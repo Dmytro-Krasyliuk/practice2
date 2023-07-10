@@ -383,8 +383,15 @@ app.get("/get/practice/:idTask/:idStudent", async (req, res) => {
     title: `${task.name} | ${nameStudent}`,
     description: "",
     html: `<div class="main">
-    ${HTML}
-    </div>
+
+${HTML}
+
+
+
+
+
+
+</div>
     `,
     html_pre_processor: "none",
     css: CSS,
