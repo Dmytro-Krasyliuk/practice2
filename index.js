@@ -213,7 +213,7 @@ if (isFinish == false) {
       successTask += `✅ ${task.tasks[i].title} ${task.tasks[i].label}
 `;
     } else {
-      wrongTask += `❌ ${task.tasks[i].title}
+      wrongTask += `❌ ${task.tasks[i].title} ${task.tasks[i].label}
 `;
     }
   });
