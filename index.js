@@ -346,7 +346,7 @@ app.get("/js/practice/:idTask/:idStudent", async (req, res) => {
   
 let idStudent = ${idStudent};
 let idTask = ${idTask};
-let imageResult = ${imageResult}
+let imageResult = '${imageResult}'
 
 initProject(idStudent, idTask, imageResult);
   `;
