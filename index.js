@@ -338,12 +338,17 @@ ${wrongTask}
 app.get("/js/practice/:idTask/:idStudent", (req, res) => {
   let idTask = req.params.idTask;
   let idStudent = req.params.idStudent;
+  let studentPractice = await studentListPractice.findOne({
+    idPractice: idTask,
+  });
+  let imageResult = studentPractice.imageResult;
   let template = `
   
 let idStudent = ${idStudent};
 let idTask = ${idTask};
+let imageResult = ${imageResult}
 
-initProject(idStudent, idTask);
+initProject(idStudent, idTask, imageResult);
   `;
   fs.writeFile(
     "./practice.js",

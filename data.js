@@ -70,6 +70,7 @@ let Practice = mongoose.model("practice", practiceSchema);
 
 const studentListPracticeSchema = new Schema({
   idPractice: { type: Number },
+  imageResult: { type: String },
   students: [
     {
       idStudent: { type: Number },
