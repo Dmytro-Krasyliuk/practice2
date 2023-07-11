@@ -341,7 +341,7 @@ app.get("/js/practice/:idTask/:idStudent", async (req, res) => {
   let studentPractice = await studentListPractice.findOne({
     idPractice: idTask,
   });
-  let imageResult = studentPractice.imageResult;
+  let imageResult = studentPractice.photo;
   let template = `
   
 let idStudent = ${idStudent};
