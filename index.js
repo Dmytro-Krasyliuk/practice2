@@ -335,7 +335,7 @@ ${wrongTask}
 });
 
 
-app.get("/js/practice/:idTask/:idStudent", (req, res) => {
+app.get("/js/practice/:idTask/:idStudent", async (req, res) => {
   let idTask = req.params.idTask;
   let idStudent = req.params.idStudent;
   let studentPractice = await studentListPractice.findOne({
