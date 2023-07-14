@@ -8,7 +8,6 @@ mongoose.connect(
   }
 );
 
-
 const schema = new Schema({
   firstName: { type: String },
   lastName: { type: String },
@@ -38,9 +37,6 @@ let User = mongoose.model("User", schema);
 
 let students = await User.find({});
 
-
-
-
 let practiceSchema = new Schema({
   id: { type: Number },
   name: { type: String },
@@ -48,6 +44,11 @@ let practiceSchema = new Schema({
   type: { type: String },
   level: { type: Number },
   themes: { type: Array },
+  codeResult: {
+    html: { type: String },
+    css: { type: String },
+    js: { type: String },
+  },
   tasks: [
     {
       title: { type: String },
@@ -65,8 +66,6 @@ let practiceSchema = new Schema({
 });
 
 let Practice = mongoose.model("practice", practiceSchema);
-
-
 
 const studentListPracticeSchema = new Schema({
   idPractice: { type: Number },
@@ -101,7 +100,6 @@ let studentListPractice = mongoose.model(
   "studentListPractice",
   studentListPracticeSchema
 );
-
 
 let practiceTasks = await Practice.find({});
 
